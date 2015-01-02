@@ -2,3 +2,30 @@ typedbundle
 ===========
 
 Typesafe key-value parinings for Android Bundles.
+
+## Usage
+
+The idea here is extreamly simple. Instead of using string contants for you bundle's keys, you just use intances of `Key<T>` instead. This way the type of the value can be enforced at compile time.
+
+```java
+import me.tatarka.typedbundle.Key;
+
+public static final Key<String> EXTRA_NAME = new Key<>("name");
+public static final Key<Integer> EXTRA_AGE = new Key<>("age");
+```
+
+Note: It's important that the type of the key is one of the types supported by Bundle. Otherwise, puting a value will fail.
+
+You can then use the `TypedBundle` wrapper class to put and get values from your Bundle.
+
+```java
+import me.tatarka.typedbundle.TypedBundle;
+
+startActivity(new Intent().putExtras(new TypedBundle().put(EXTRA_NAME, "name").put(EXTRA_AGE, "age").getBundle()));
+...
+TypedBundle typedBundle = new TypedBundle(getIntent().getExtras());
+String name = typedBundle.get(EXTRA_NAME, name);
+int age = typedBundle.get(EXTRA_AGE, age);
+```
+
+That's it! The values are stored in the bundle exactly how you'd expect so you can use this to interface with existing code no problem.
