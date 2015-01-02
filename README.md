@@ -1,7 +1,7 @@
 TypedBundle
 ===========
 
-Typesafe key-value parinings for Android Bundles.
+Typesafe key-value pairings for Android Bundles.
 
 ## Usage
 
@@ -21,11 +21,14 @@ You can then use the `TypedBundle` wrapper class to put and get values from your
 ```java
 import me.tatarka.typedbundle.TypedBundle;
 
-startActivity(new Intent().putExtras(new TypedBundle().put(EXTRA_NAME, "name").put(EXTRA_AGE, "age").getBundle()));
+TypedBundle typedBundle = new TypedBundle()
+  .put(EXTRA_NAME, "Bob")
+  .put(EXTRA_AGE, 42);
+startActivity(new Intent().putExtras(typedBundle.getBundle()));
 ...
 TypedBundle typedBundle = new TypedBundle(getIntent().getExtras());
-String name = typedBundle.get(EXTRA_NAME, name);
-int age = typedBundle.get(EXTRA_AGE, age);
+String name = typedBundle.get(EXTRA_NAME);
+int age = typedBundle.get(EXTRA_AGE, 0); // defaults supported for any value.
 ```
 
 That's it! The values are stored in the bundle exactly how you'd expect so you can use this to interface with existing code no problem.
