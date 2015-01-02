@@ -1,4 +1,4 @@
-typedbundle
+TypedBundle
 ===========
 
 Typesafe key-value parinings for Android Bundles.
