@@ -23,21 +23,21 @@ public class TypedBundleTest extends AndroidTestCase {
     public void testNewWithClassLoader() {
         ClassLoader classLoader = getClass().getClassLoader();
         TypedBundle typedBundle = new TypedBundle(classLoader);
-        
+
         assertThat(typedBundle.getBundle().getClassLoader()).isEqualTo(classLoader);
     }
-    
+
     public void testNewWithTypedBundle() {
         Key<String> key = new Key<>("key");
         TypedBundle testTypedBundle = new TypedBundle();
         testTypedBundle.put(key, "value");
         TypedBundle typedBundle = new TypedBundle(testTypedBundle);
-        
+
         assertThat(typedBundle.get(key)).isEqualTo("value");
         // Must copy the underlying bundle
         assertThat(typedBundle.getBundle()).isNotEqualTo(testTypedBundle.getBundle());
     }
-    
+
     @TargetApi(18)
     public void testGetBinder() {
         Key<IBinder> key = new Key<>("key");
@@ -64,7 +64,7 @@ public class TypedBundleTest extends AndroidTestCase {
 
         assertThat(typedBundle.get(key, false)).isFalse();
     }
-    
+
     public void testGetBooleanDefaultValuePresent() {
         Key<Boolean> key = new Key<>("key");
         TypedBundle typedBundle = new TypedBundle();
@@ -576,45 +576,35 @@ public class TypedBundleTest extends AndroidTestCase {
         Key<ArrayList<CharSequence>> key = new Key<>("key");
         ArrayList<CharSequence> testCharSequenceArrayList = new ArrayList<>(Arrays.<CharSequence>asList(new StringBuilder("value1"), new StringBuilder("value2")));
         TypedBundle typedBundle = new TypedBundle();
-        typedBundle.put(key, testCharSequenceArrayList);
+        typedBundle.putCharSequenceArrayList(key, testCharSequenceArrayList);
 
         assertThat(typedBundle.getBundle().getCharSequenceArrayList("key")).isEqualTo(testCharSequenceArrayList);
     }
-    
+
     // CharSequences always parcel to strings.
     public void testPutCharSequenceArrayListParcel() {
         Key<ArrayList<CharSequence>> key = new Key<>("key");
         ArrayList<CharSequence> testCharSequenceArrayList = new ArrayList<>(Arrays.<CharSequence>asList(new StringBuilder("value1"), new StringBuilder("value2")));
         TypedBundle typedBundle = new TypedBundle();
-        typedBundle.put(key, testCharSequenceArrayList);
+        typedBundle.putCharSequenceArrayList(key, testCharSequenceArrayList);
 
         assertThat(runThroughParcel(typedBundle).getBundle().getCharSequenceArrayList("key")).isEqualTo(new ArrayList<>(Arrays.asList("value1", "value2")));
     }
 
-    // Extra test because we can't recover type info from an empty ArrayList.
-    public void testPutCharSequenceArrayListEmpty() {
-        Key<ArrayList<CharSequence>> key = new Key<>("key");
-        ArrayList<CharSequence> testCharSequenceArrayList = new ArrayList<>(Arrays.<CharSequence>asList());
-        TypedBundle typedBundle = new TypedBundle();
-        typedBundle.put(key, testCharSequenceArrayList);
-
-        assertThat(runThroughParcel(typedBundle).getBundle().getCharSequenceArrayList("key")).isEqualTo(testCharSequenceArrayList);
-    }
-    
     public void testPutDouble() {
         Key<Double> key = new Key<>("key");
         TypedBundle typedBundle = new TypedBundle();
         typedBundle.put(key, 1d);
-        
+
         assertThat(runThroughParcel(typedBundle).getBundle().getDouble("key")).isEqualTo(1d);
     }
-    
+
     public void testPutDoubleArray() {
         Key<double[]> key = new Key<>("key");
         double[] testDoubleArray = new double[] { 1, 2 };
         TypedBundle typedBundle = new TypedBundle();
         typedBundle.put(key, testDoubleArray);
-        
+
         assertThat(runThroughParcel(typedBundle).getBundle().getDoubleArray("key")).isEqualTo(testDoubleArray);
     }
 
@@ -634,41 +624,41 @@ public class TypedBundleTest extends AndroidTestCase {
 
         assertThat(runThroughParcel(typedBundle).getBundle().getFloatArray("key")).isEqualTo(testFloatArray);
     }
-    
+
     public void testPutInt() {
         Key<Integer> key = new Key<>("key");
         TypedBundle typedBundle = new TypedBundle();
         typedBundle.put(key, 1);
-        
+
         assertThat(runThroughParcel(typedBundle).getBundle().getInt("key")).isEqualTo(1);
     }
-    
+
     public void testPutIntArray() {
         Key<int[]> key = new Key<>("key");
         int[] testIntArray = new int[] { 1, 2 };
         TypedBundle typedBundle = new TypedBundle();
         typedBundle.put(key, testIntArray);
-        
+
         assertThat(runThroughParcel(typedBundle).getBundle().getIntArray("key")).isEqualTo(testIntArray);
     }
-    
+
     public void testPutIntegerArrayList() {
         Key<ArrayList<Integer>> key = new Key<>("key");
         ArrayList<Integer> testIntegerArrayList = new ArrayList<>(Arrays.asList(1, 2));
         TypedBundle typedBundle = new TypedBundle();
-        typedBundle.put(key, testIntegerArrayList);
+        typedBundle.putIntegerArrayList(key, testIntegerArrayList);
 
         assertThat(runThroughParcel(typedBundle).getBundle().getIntegerArrayList("key")).isEqualTo(testIntegerArrayList);
     }
-    
+
     public void testPutLong() {
         Key<Long> key = new Key<>("key");
         TypedBundle typedBundle = new TypedBundle();
         typedBundle.put(key, 1L);
-        
+
         assertThat(runThroughParcel(typedBundle).getBundle().getLong("key")).isEqualTo(1L);
     }
-    
+
     public void testPutLongArray() {
         Key<long[]> key = new Key<>("key");
         long[] testLongArray = new long[] { 1, 2 };
@@ -700,7 +690,7 @@ public class TypedBundleTest extends AndroidTestCase {
         Key<ArrayList<TestParcelable>> key = new Key<>("key");
         ArrayList<TestParcelable> testParcelableArrayList = new ArrayList<>(Arrays.asList(new TestParcelable(1), new TestParcelable(2)));
         TypedBundle typedBundle = new TypedBundle();
-        typedBundle.put(key, testParcelableArrayList);
+        typedBundle.putParcelableArrayList(key, testParcelableArrayList);
 
         assertThat(runThroughParcel(typedBundle).getBundle().getParcelableArrayList("key")).isEqualTo(testParcelableArrayList);
     }
@@ -769,13 +759,13 @@ public class TypedBundleTest extends AndroidTestCase {
 
         assertThat(runThroughParcel(typedBundle).getBundle().getString("key")).isEqualTo("value");
     }
-    
+
     public void testPutStringArray() {
         Key<String[]> key = new Key<>("key");
         String[] testStringArray = new String[] { "value1", "value2" };
         TypedBundle typedBundle = new TypedBundle();
         typedBundle.put(key, testStringArray);
-        
+
         assertThat(runThroughParcel(typedBundle).getBundle().getStringArray("key")).isEqualTo(testStringArray);
     }
 
@@ -783,11 +773,11 @@ public class TypedBundleTest extends AndroidTestCase {
         Key<ArrayList<String>> key = new Key<>("key");
         ArrayList<String> testStringArrayList = new ArrayList<>(Arrays.asList("value1", "value2"));
         TypedBundle typedBundle = new TypedBundle();
-        typedBundle.put(key, testStringArrayList);
+        typedBundle.putStringArrayList(key, testStringArrayList);
 
         assertThat(runThroughParcel(typedBundle).getBundle().getStringArrayList("key")).isEqualTo(testStringArrayList);
     }
-    
+
     public void testPutTypedBundle() {
         Key<TypedBundle> key = new Key<>("key");
         Key<String> testTypedBundleKey = new Key<>("key");
@@ -795,29 +785,31 @@ public class TypedBundleTest extends AndroidTestCase {
         testTypedBundle.put(testTypedBundleKey, "value");
         TypedBundle typedBundle = new TypedBundle();
         typedBundle.put(key, testTypedBundle);
-        
+
         assertThat(runThroughParcel(typedBundle).getBundle().<TypedBundle>getParcelable("key").get(testTypedBundleKey)).isEqualTo("value");
     }
-    
-    public void testPutBadType() {
-        Key<TestBadType> key = new Key<>("key");
-        TypedBundle typedBundle = new TypedBundle();
-        
-        try {
-            typedBundle.put(key, new TestBadType());
-            fail("Should throw for invalid bundle type");
-        } catch (IllegalArgumentException e) {
-            // Success 
-        }
-    }
+
+    // Doesn't compile!
+//    public void testPutBadType() {
+//        Key<TestBadType> key = new Key<>("key");
+//        TypedBundle typedBundle = new TypedBundle();
+//
+//        try {
+//            typedBundle.put(key, new TestBadType());
+//            fail("Should throw for invalid bundle type");
+//        } catch (IllegalArgumentException e) {
+//            // Success
+//        }
+//    }
 
     // This only works if the list has at least one item, but this is the best we can do with type
     // erasure.
     public void testPutBadArrayListType() {
         Key<ArrayList<TestBadType>>  key = new Key<>("key");
         TypedBundle typedBundle = new TypedBundle();
-        
+
         try {
+            // Deprecated to warn user of this method
             typedBundle.put(key, new ArrayList<>(Arrays.asList(new TestBadType())));
             fail("Should throw for invalid bundle type");
         } catch (IllegalArgumentException e) {
@@ -956,6 +948,6 @@ public class TypedBundleTest extends AndroidTestCase {
             return value;
         }
     }
-    
+
     public static class TestBadType {};
 }
