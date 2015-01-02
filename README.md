@@ -14,8 +14,6 @@ public static final Key<String> EXTRA_NAME = new Key<>("name");
 public static final Key<Integer> EXTRA_AGE = new Key<>("age");
 ```
 
-Note: It's important that the type of the key is one of the types supported by Bundle. Otherwise, puting a value will fail.
-
 You can then use the `TypedBundle` wrapper class to put and get values from your Bundle.
 
 ```java
