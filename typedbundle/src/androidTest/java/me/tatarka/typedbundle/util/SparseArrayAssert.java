@@ -1,4 +1,4 @@
-package me.tatarka.typedbundle;
+package me.tatarka.typedbundle.util;
 
 import android.util.SparseArray;
 

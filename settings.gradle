@@ -1,1 +1,1 @@
-include ':typedbundle'
+include ':typedbundle', ':typedbundle-support'

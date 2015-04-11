@@ -16,6 +16,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 
+import me.tatarka.typedbundle.util.SparseArrayAssert;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class TypedBundleTest extends AndroidTestCase {

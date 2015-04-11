@@ -3,7 +3,10 @@ package me.tatarka.typedbundle;
 /**
  * A TypedBundle key. This is a typesafe version of the string keys used for Bundles and Prefs.
  *
- * @param <T> The key's type. This <em>must</em> be a type that bundle supports (see {@link android.os.Bundle}).
+ * @param <T> The key's type. This <em>must</em> be a type that either bundle or shared preferences
+ *            supports, depending on usage.
+ * @see android.os.Bundle
+ * @see android.content.SharedPreferences
  */
 public final class Key<T> {
     public final String name;
